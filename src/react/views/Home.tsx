@@ -1,12 +1,16 @@
 import * as React from "react";
-import AppMenu from "../business/AppMenu";
+import AppLayout from "../business/AppLayout";
 
 const Home = () => (
-  <>
-    <AppMenu current="home" />
-    <h1>My Time</h1>
-    Hello World
-  </>
+  <AppLayout
+    pageName="home"
+    pageContent={
+      <>
+        <h1>My Time</h1>
+        {"Hello World"}
+      </>
+    }
+  />
 );
 
 export default Home;

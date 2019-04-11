@@ -1,0 +1,23 @@
+:local(.header) {
+    background-color: #98d9d5 !important;
+}
+
+:local(.icon) {
+    float: left;
+}
+
+:local(.menu) {
+    background-color: #98d9d5 !important;
+}
+
+:local(.menu-item).ant-menu-item > a {
+    color: #082947 !important;
+}
+
+:local(.menu-item).ant-menu-item-selected > a, :local(.menu-item).ant-menu-item-active > a {
+    color: #0066b5 !important;
+}
+
+:local(.menu-item).ant-menu-item-selected, :local(.menu-item).ant-menu-item-active {
+    border-bottom-color: #0066b5 !important;
+}

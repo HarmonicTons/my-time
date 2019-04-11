@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 *,
 *::after,
 *::before {
@@ -9,7 +11,7 @@
 
 html,
 body,
-#app {
+#root {
   height: 100%;
   width: 100%;
 }

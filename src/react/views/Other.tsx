@@ -1,11 +1,8 @@
 import * as React from "react";
-import AppMenu from "../business/AppMenu";
+import AppLayout from "../business/AppLayout";
 
-const Home = () => (
-  <>
-    <AppMenu current="other" />
-    Rooter is working
-  </>
+const Other = () => (
+  <AppLayout pageName="other" pageContent={<>{"Router is working"}</>} />
 );
 
-export default Home;
+export default Other;
