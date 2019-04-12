@@ -1,16 +1,38 @@
+import { Button } from "antd";
 import * as React from "react";
+import { useState } from "react";
+import { create } from "../../services/activity/REST";
+import { list } from "../../services/activity/SDK";
 import AppLayout from "../business/AppLayout";
 
-const Home = () => (
-  <AppLayout
-    pageName="home"
-    pageContent={
-      <>
-        <h1>My Time</h1>
-        {"Hello World"}
-      </>
-    }
-  />
-);
+const Home = () => {
+  const [loading, setLoading] = useState(false);
+  const handleClick = async () => {
+    setLoading(true);
+    const res = await list();
+    console.log(res);
+    const activity = {
+      date: new Date(),
+      duration: 10,
+      name: "hello"
+    };
+    const res2 = await create(activity);
+    console.log(res2);
+    setLoading(false);
+  };
+  return (
+    <AppLayout
+      pageName="home"
+      pageContent={
+        <>
+          <h1>My Time</h1>
+          <Button loading={loading} onClick={handleClick}>
+            Send
+          </Button>
+        </>
+      }
+    />
+  );
+};
 
 export default Home;
