@@ -1,23 +1,46 @@
 :local(.header) {
     background-color: #98d9d5 !important;
+    display: flex;
+    height: 64px;
+    overflow: hidden;
 }
 
 :local(.icon) {
-    float: left;
+    height: 48px;
+    margin-top: auto;
+    margin-bottom: auto;
+    min-width: 64px; 
+}
+
+:local(.title) {
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 20px;
+    min-width: 100px; 
 }
 
 :local(.menu) {
     background-color: #98d9d5 !important;
+    height: 64px;
+    width: 70%;
 }
 
-:local(.menu-item).ant-menu-item > a {
+
+
+:local(.menu) > * {
+    height: 64px !important;
+    line-height: 64px !important
+}
+
+.ant-menu-item > a, .ant-menu-submenu > a {
     color: #082947 !important;
 }
 
-:local(.menu-item).ant-menu-item-selected > a, :local(.menu-item).ant-menu-item-active > a {
+.ant-menu-item-selected > a, .ant-menu-item-active > a, .ant-menu-submenu-selected > a, .ant-menu-submenu-active > a {
     color: #0066b5 !important;
 }
 
-:local(.menu-item).ant-menu-item-selected, :local(.menu-item).ant-menu-item-active {
+.ant-menu-item-selected, .ant-menu-item-active, .ant-menu-submenu-selected, .ant-menu-submenu-active {
     border-bottom-color: #0066b5 !important;
 }

@@ -6,26 +6,11 @@ import AppIcon from "./AppIcon";
 
 const { Header } = Layout;
 
-const AppHeader = ({ current, size }: { current: string; size: number }) => (
-  <Header
-    className={styles.header}
-    style={{
-      height: size
-    }}
-  >
-    <AppIcon
-      className={styles.icon}
-      style={{
-        height: size - 14,
-        margin: 7
-      }}
-    />
-    <Menu
-      mode="horizontal"
-      selectedKeys={[current]}
-      className={styles.menu}
-      style={{ lineHeight: size - 2 + "px" }}
-    >
+const AppHeader = ({ current }: { current: string }) => (
+  <Header className={styles.header}>
+    <AppIcon className={styles.icon} />
+    <h1 className={styles.title}>My Time</h1>
+    <Menu mode="horizontal" selectedKeys={[current]} className={styles.menu}>
       <Menu.Item key="home" className={styles["menu-item"]}>
         <Link to="/home">
           <Icon type="home" />

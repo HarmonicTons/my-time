@@ -1,0 +1,11 @@
+:local(.layout) {
+    height: 100%;
+}
+
+:local(.content) {
+    margin: 10px;
+}
+
+:local(.footer) {
+    text-align: center;
+}

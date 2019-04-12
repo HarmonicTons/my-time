@@ -9,7 +9,7 @@ import AppIcon from "./AppIcon";
 storiesOf("Business", module)
   .add("Header", () => (
     <Router>
-      <AppHeader current="home" size={64} />
+      <AppHeader current="home" />
     </Router>
   ))
   .add("Icon", () => <AppIcon style={{ width: 64, height: 64 }} />);
