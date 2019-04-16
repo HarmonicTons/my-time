@@ -10,6 +10,7 @@ import {
 import store from "../redux/store";
 
 import Home from "./views/Home";
+import Login from './views/Login';
 import Other from "./views/Other";
 
 /**
@@ -22,6 +23,7 @@ export default function App() {
         <Switch>
           <Route path="/home" exact={true} component={Home} />
           <Route path="/other" exact={true} component={Other} />
+          <Route path="/login" exact={true} component={Login} />
           <Route
             path="/"
             exact={true}

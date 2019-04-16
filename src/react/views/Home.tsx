@@ -1,10 +1,8 @@
 import { Button } from "antd";
 import * as React from "react";
 import { useState } from "react";
-import { create } from "../../services/activity/REST";
-import { list } from "../../services/activity/SDK";
+import { create, list } from "../../services/activity/SDK";
 import AppLayout from "../business/AppLayout";
-
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const handleClick = async () => {
