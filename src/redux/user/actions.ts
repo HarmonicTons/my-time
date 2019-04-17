@@ -1,13 +1,25 @@
-export const LOGIN_USER = "LOGIN_USER";
-export const LOGOUT_USER = "LOGOUT_USER";
+import { Dispatch } from "react";
+import { IUser } from "src/interfaces/IUser";
 
-export const loginUser = (userInfo: any) => (dispatch: any) =>
+export enum TYPES {
+  LOGIN_USER = "LOGIN_USER",
+  LOGOUT_USER = "LOGOUT_USER"
+}
+
+interface IDispatchElement {
+  type: TYPES;
+  [key: string]: any;
+}
+
+export const loginUser = (user: IUser) => (
+  dispatch: Dispatch<IDispatchElement>
+) =>
   dispatch({
-    payload: { userInfo },
-    type: LOGIN_USER
+    payload: { user },
+    type: TYPES.LOGIN_USER
   });
 
-export const logoutUser = () => (dispatch: any) =>
+export const logoutUser = () => (dispatch: Dispatch<IDispatchElement>) =>
   dispatch({
-    type: LOGOUT_USER
+    type: TYPES.LOGOUT_USER
   });

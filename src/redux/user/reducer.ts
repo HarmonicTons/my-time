@@ -1,37 +1,39 @@
 import { Reducer } from "react";
 import { AnyAction } from "redux";
-import { LOGIN_USER, LOGOUT_USER } from "./actions";
+import { IUser } from "src/interfaces/IUser";
+import { TYPES } from "./actions";
 
-const initialState = {
-  loggedIn: false,
-  userInfo: null
+export interface IUserState {
+  user: IUser | null;
+}
+
+const initialState: IUserState = {
+  user: null
 };
 
-const loginUser = (state: any, action: any) => {
-  const { userInfo } = action.payload;
+const loginUser = (state: IUserState, action: AnyAction) => {
+  const { user } = action.payload;
   return {
     ...state,
-    loggedIn: true,
-    userInfo
+    user
   };
 };
 
-const logoutUser = (state: any) => {
+const logoutUser = (state: IUserState) => {
   return {
     ...state,
-    loggedIn: false,
-    userInfo: null
+    user: null
   };
 };
 
-export const userReducer: Reducer<{}, AnyAction> = (
+export const userReducer: Reducer<IUserState, AnyAction> = (
   state = initialState,
-  action: any
+  action: AnyAction
 ) => {
   switch (action.type) {
-    case LOGIN_USER:
+    case TYPES.LOGIN_USER:
       return loginUser(state, action);
-    case LOGOUT_USER:
+    case TYPES.LOGOUT_USER:
       return logoutUser(state);
     default:
       return state;

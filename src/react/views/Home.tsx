@@ -1,21 +1,25 @@
 import { Button } from "antd";
 import * as React from "react";
 import { useState } from "react";
-import { create, list } from "../../services/activity/SDK";
+import { IActivity } from "src/interfaces/IActivity";
+import { list } from "../../services/activity/SDK";
 import AppLayout from "../business/AppLayout";
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [activities, setActivities] = useState<IActivity[]>([]);
+
   const handleClick = async () => {
     setLoading(true);
-    const res = await list();
-    console.log(res);
-    const activity = {
-      date: new Date(),
-      duration: 10,
-      name: "hello"
-    };
-    const res2 = await create(activity);
-    console.log(res2);
+    try {
+      const res = await list();
+      setActivities(res);
+      setError(null);
+    } catch (error) {
+      setError(error);
+      setActivities([]);
+    }
     setLoading(false);
   };
   return (
@@ -27,6 +31,10 @@ const Home = () => {
           <Button loading={loading} onClick={handleClick}>
             Send
           </Button>
+          <br />
+          {JSON.stringify(activities)}
+          <br />
+          {error && error.message}
         </>
       }
     />

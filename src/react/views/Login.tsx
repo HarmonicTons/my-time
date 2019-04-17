@@ -1,62 +1,47 @@
 import { Button } from "antd";
 import * as React from "react";
 import { connect } from "react-redux";
-import { loginUser, logoutUser } from "../../redux/user/actions";
-import { firebase } from "../../services/firebase";
+import { IUser } from "src/interfaces/IUser";
+import { IUserState } from "src/redux/user/reducer";
+import * as auth from "../../services/auth";
 import AppLayout from "../business/AppLayout";
 
-const mapStateToProps = (state: any) => {
-  const { loggedIn, userInfo } = state.user;
+const mapStateToProps = ({ user: userState }: { user: IUserState }) => {
+  const { user } = userState;
   return {
-    loggedIn,
-    userInfo
+    user
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    login: (userInfo: any) => dispatch(loginUser(userInfo)),
-    logout: () => dispatch(logoutUser())
-  };
-};
-
-const Login = ({ loggedIn, userInfo, login, logout }: any) => {
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      login(user);
-    } else {
-      logout();
-    }
-  });
-
+const Login = ({ user }: { user: IUser }) => {
   const handleClickLogin = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().useDeviceLanguage();
-    firebase.auth().signInWithRedirect(provider);
+    return auth.signInWithGoogle();
   };
 
   const handleClickLogout = async () => {
-    firebase.auth().signOut();
+    return auth.signOut();
   };
 
   return (
     <AppLayout
       pageName="login"
       pageContent={(() => {
-        if (!loggedIn) {
+        if (!user) {
           return (
             <Button type="primary" onClick={handleClickLogin}>
               Login via Google
             </Button>
           );
         }
-        return <Button onClick={handleClickLogout}>Logout</Button>;
+        return (
+          <>
+            <p>{user.name}</p>
+            <Button onClick={handleClickLogout}>Logout</Button>
+          </>
+        );
       })()}
     />
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps)(Login);

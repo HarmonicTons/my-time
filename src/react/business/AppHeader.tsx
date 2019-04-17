@@ -17,10 +17,10 @@ const AppHeader = ({ current }: { current: string }) => (
           {"Home"}
         </Link>
       </Menu.Item>
-      <Menu.Item key="other" className={styles["menu-item"]}>
-        <Link to="/other">
-          <Icon type="star" />
-          {"Other"}
+      <Menu.Item key="login" className={styles["menu-item"]}>
+        <Link to="/login">
+          <Icon type="user" />
+          {"Profile"}
         </Link>
       </Menu.Item>
     </Menu>

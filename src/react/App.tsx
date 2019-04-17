@@ -9,9 +9,9 @@ import {
 
 import store from "../redux/store";
 
+import Auth from "./Auth";
 import Home from "./views/Home";
-import Login from './views/Login';
-import Other from "./views/Other";
+import Login from "./views/Login";
 
 /**
  * App root.
@@ -19,10 +19,10 @@ import Other from "./views/Other";
 export default function App() {
   return (
     <ReduxProvider store={store}>
+      <Auth />
       <Router>
         <Switch>
           <Route path="/home" exact={true} component={Home} />
-          <Route path="/other" exact={true} component={Other} />
           <Route path="/login" exact={true} component={Login} />
           <Route
             path="/"

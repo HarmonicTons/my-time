@@ -1,11 +1,12 @@
 import { IActivity } from "../../../interfaces/IActivity";
-import { firebase } from "../../../services/firebase";
+import firebase from "../../../services/firebase";
 import { incoming } from "./adapter";
 
 const db = firebase.firestore();
+const collectionName = "activities";
 
 export const list = async (): Promise<IActivity[]> => {
-  const querySnapshot = await db.collection("activities").get();
+  const querySnapshot = await db.collection(collectionName).get();
   if (!querySnapshot) {
     return [];
   }
