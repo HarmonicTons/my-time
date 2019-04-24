@@ -1,7 +1,70 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth.uid != null;
+    function incomingData() {
+      return request.resource.data;
+    }
+    match /users/{userID} {
+      function isYourself() {
+        return request.auth.uid == userID;
+      }
+      
+      function userNameIsValid() {
+        return incomingData().name is string &&
+          incomingData().name.size() > 2 &&
+          incomingData().name.size() < 30
+      }
+
+      function userLastConnectionIsValid() {
+        return incomingData().lastConnection is timestamp;
+      }
+      
+      allow read: if isYourself();
+      allow write, update: if isYourself() && 
+        userNameIsValid() &&
+        userLastConnectionIsValid();
+      
+      match /activities/{activityID} {
+        function activityNameIsValid() {
+          return incomingData().name is string &&
+            incomingData().name.size() > 2 &&
+            incomingData().name.size() < 30
+        }
+        
+        function activityDescriptionIsValid() {
+          return !incomingData().keys().hasAll(['description']) ||
+            incomingData().description is string &&
+            incomingData().description.size() > 0 &&
+            incomingData().description.size() < 1500
+        }
+        
+        function activityColorIsValid() {
+          return incomingData().color is string &&
+            incomingData().color.matches('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
+        }
+        
+        allow read: if isYourself();
+        allow create, update: if isYourself() &&
+          activityNameIsValid() &&
+          activityDescriptionIsValid() &&
+          activityColorIsValid();
+          
+        match /occurences/{ocurrenceID} {
+          function occurenceDateIsValid() {
+            return incomingData().date is timestamp;
+          }
+          
+          function occurenceDurationIsValid() {
+            return incomingData().duration is number &&
+              incomingData().duration >= 0 &&
+              incomingData().duration <= 1440;
+          }
+        
+          allow read: if isYourself();
+          allow create, update: if isYourself() &&
+            occurenceDateIsValid() &&
+            occurenceDurationIsValid();
+        }
+      }
     }
   }
 }

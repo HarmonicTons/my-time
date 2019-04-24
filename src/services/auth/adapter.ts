@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import { IUser } from "../../interfaces/IUser";
 import firebase from "../../services/firebase";
 
@@ -8,6 +9,7 @@ export const incoming = (firebaseUser: firebase.User): IUser | null => {
   const { uid, displayName } = firebaseUser;
   return {
     id: uid,
+    lastConnection: moment(),
     name: displayName
   };
 };

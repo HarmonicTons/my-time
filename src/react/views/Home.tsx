@@ -1,11 +1,21 @@
 import { Button } from "antd";
 import * as React from "react";
 import { useState } from "react";
+import { connect } from "react-redux";
 import { IActivity } from "src/interfaces/IActivity";
-import { list } from "../../services/activity/SDK";
+import { IUser } from "src/interfaces/IUser";
+import { IUserState } from "src/redux/user/reducer";
+import { list } from "../../services/activity";
 import AppLayout from "../business/AppLayout";
 
-const Home = () => {
+const mapStateToProps = ({ user: userState }: { user: IUserState }) => {
+  const { user } = userState;
+  return {
+    user
+  };
+};
+
+const Home = ({ user }: { user: IUser }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [activities, setActivities] = useState<IActivity[]>([]);
@@ -13,7 +23,7 @@ const Home = () => {
   const handleClick = async () => {
     setLoading(true);
     try {
-      const res = await list();
+      const res = await list(user.id);
       setActivities(res);
       setError(null);
     } catch (error) {
@@ -41,4 +51,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default connect(mapStateToProps)(Home);

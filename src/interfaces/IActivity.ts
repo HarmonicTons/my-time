@@ -1,5 +1,9 @@
+import { IOccurence } from "./IOccurence";
+
 export interface IActivity {
-  date: Date;
-  duration: number;
+  id: string;
   name: string;
+  description?: string;
+  color: string;
+  occurences?: IOccurence;
 }

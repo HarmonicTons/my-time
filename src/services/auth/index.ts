@@ -1,5 +1,6 @@
 import { IUser } from "src/interfaces/IUser";
 import firebase from "../../services/firebase";
+import { upsert } from "../../services/user";
 import { incoming } from "./adapter";
 
 export const getRedirectResult = async (): Promise<IUser | null> => {
@@ -8,9 +9,15 @@ export const getRedirectResult = async (): Promise<IUser | null> => {
 };
 
 export const onAuthStateChanged = (callback: (user: IUser | null) => void) => {
-  return firebase.auth().onAuthStateChanged((firebaseUser: firebase.User) => {
-    return callback(incoming(firebaseUser));
-  });
+  return firebase
+    .auth()
+    .onAuthStateChanged(async (firebaseUser: firebase.User) => {
+      const user = incoming(firebaseUser);
+      if (user) {
+        await upsert(user);
+      }
+      return callback(user);
+    });
 };
 
 export const signInWithGoogle = () => {
