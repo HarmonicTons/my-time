@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import * as React from "react";
 import { IActivity } from "src/interfaces/IActivity";
@@ -17,13 +17,29 @@ class ActivityFormInModal extends React.Component<IProps> {
     confirmLoading: false
   };
 
-  public handleOk = async (activity: IActivity) => {
-    const { onSubmit } = this.props;
+  public handleOk = async (activityToSubmit: IActivity) => {
+    const { activity, onSubmit } = this.props;
     this.setState({
       confirmLoading: true
     });
-    const res = await onSubmit(activity);
-    return res;
+    try {
+      await onSubmit(activityToSubmit);
+    } catch (error) {
+      message.error("Invalid activity");
+      // tslint:disable-next-line no-console
+      console.error(error);
+      this.setState({
+        confirmLoading: false
+      });
+      return;
+    }
+    message.success(
+      `Activity succesfully ${activity ? "updated" : "created"}.`
+    );
+    this.setState({
+      confirmLoading: false
+    });
+    return;
   };
 
   public render() {
