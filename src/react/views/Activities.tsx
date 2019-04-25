@@ -1,11 +1,12 @@
-import { Button } from "antd";
-import * as React from "react";
+import { Button, Icon } from "antd";
 import { useEffect, useState } from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 import { IActivity } from "src/interfaces/IActivity";
 import { IUser } from "src/interfaces/IUser";
 import { IUserState } from "src/redux/user/reducer";
-import { create, list } from "../../services/activity";
+import { list } from "../../services/activity";
+import ActivityButton from "../business/Activity/ActivityButton";
 import AppLayout from "../business/AppLayout";
 
 const mapStateToProps = ({ user: userState }: { user: IUserState }) => {
@@ -30,11 +31,6 @@ const Home = ({ user }: { user: IUser }) => {
     data: []
   });
 
-  const [activityAdding, setActivityAdding] = useState<IAsyncState<undefined>>({
-    loading: false,
-    error: null
-  });
-
   const refresh = async () => {
     setActivityFetching({
       loading: true,
@@ -57,31 +53,6 @@ const Home = ({ user }: { user: IUser }) => {
     }
   };
 
-  const add = async () => {
-    setActivityAdding({
-      loading: true,
-      error: null
-    });
-    try {
-      const activity = {
-        name: "hello",
-        description: "why not",
-        color: "#00FF11"
-      };
-      await create(user.id, activity);
-      setActivityAdding({
-        loading: false,
-        error: null
-      });
-      refresh();
-    } catch (error) {
-      setActivityAdding({
-        loading: false,
-        error
-      });
-    }
-  };
-
   useEffect(() => {
     if (user) {
       refresh();
@@ -93,26 +64,30 @@ const Home = ({ user }: { user: IUser }) => {
       pageName="activities"
       pageContent={
         <>
-          <h1>Activities</h1>
+          <h1>
+            Activities {activityFetching.loading && <Icon type="loading" />}
+          </h1>
+
           {user && (
             <>
-              <ul>
+              <div>
                 {activityFetching.data &&
                   activityFetching.data.map(activity => (
-                    <li key={activity.id} style={{ color: activity.color }}>
-                      {activity.name}
-                    </li>
+                    <div
+                      key={activity.id}
+                      style={{ marginRight: "10px", display: "inline-block" }}
+                    >
+                      <ActivityButton
+                        user={user}
+                        activity={activity}
+                        onActivityUpdate={refresh}
+                      />
+                    </div>
                   ))}
-              </ul>
-              <Button loading={activityFetching.loading} onClick={refresh}>
-                Refresh
-              </Button>
-              {activityFetching.error && activityFetching.error.message}
-
-              <Button loading={activityAdding.loading} onClick={add}>
-                Add
-              </Button>
-              {activityAdding.error && activityAdding.error.message}
+                <Button type="dashed" size="large" icon="plus">
+                  Add
+                </Button>
+              </div>
             </>
           )}
           {!user && <>Please loggin first</>}
