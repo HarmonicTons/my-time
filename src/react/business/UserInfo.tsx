@@ -32,7 +32,7 @@ const UserCard = ({ user }: { user: IUser }) => {
           <Avatar size="large" icon="user" src={user && user.profilePicture} />
         }
         title={(user && user.name) || "Anonymous"}
-        description={(user && "add email here later") || "Please loggin"}
+        description={(user && user.email) || "Please loggin"}
       />
       <br />
       {user && (
