@@ -6,4 +6,5 @@ export interface IUser {
   name: string | null;
   lastConnection: Moment;
   activities?: IActivity;
+  profilePicture?: string | null;
 }

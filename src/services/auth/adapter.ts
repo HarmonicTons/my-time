@@ -6,10 +6,11 @@ export const incoming = (firebaseUser: firebase.User): IUser | null => {
   if (!firebaseUser) {
     return null;
   }
-  const { uid, displayName } = firebaseUser;
+  const { uid, displayName, photoURL } = firebaseUser;
   return {
     id: uid,
     lastConnection: moment(),
-    name: displayName
+    name: displayName,
+    profilePicture: photoURL
   };
 };

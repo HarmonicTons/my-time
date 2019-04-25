@@ -90,7 +90,7 @@ const Home = ({ user }: { user: IUser }) => {
 
   return (
     <AppLayout
-      pageName="home"
+      pageName="activities"
       pageContent={
         <>
           <h1>Activities</h1>
