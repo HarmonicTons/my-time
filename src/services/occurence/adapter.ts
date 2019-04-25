@@ -2,8 +2,8 @@ import { IOccurence } from "../../interfaces/IOccurence";
 import * as dateAdapter from "../firebase/date/adapter";
 import { IFireStoreOccurence } from "./IFireStoreOccurence";
 
-export const incoming = (fireStoreOccurence: any): IOccurence => {
-  const { date, duration, uid } = fireStoreOccurence;
+export const incoming = (uid: string, fireStoreOccurence: any): IOccurence => {
+  const { date, duration } = fireStoreOccurence;
   return {
     date: dateAdapter.incoming(date),
     duration,
@@ -12,10 +12,9 @@ export const incoming = (fireStoreOccurence: any): IOccurence => {
 };
 
 export const outgoing = (occurence: IOccurence): IFireStoreOccurence => {
-  const { date, duration, id } = occurence;
+  const { date, duration } = occurence;
   return {
     date: dateAdapter.outgoing(date),
-    duration,
-    uid: id
+    duration
   };
 };

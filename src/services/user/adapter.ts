@@ -2,8 +2,8 @@ import { IUser } from "src/interfaces/IUser";
 import * as dateAdapter from "../firebase/date/adapter";
 import { IFireStoreUser } from "./IFireStoreUser";
 
-export const incoming = (fireStoreUser: any): IUser => {
-  const { uid, name, lastConnection } = fireStoreUser;
+export const incoming = (uid: string, fireStoreUser: any): IUser => {
+  const { name, lastConnection } = fireStoreUser;
   return {
     id: uid,
     lastConnection: dateAdapter.incoming(lastConnection),
@@ -12,10 +12,9 @@ export const incoming = (fireStoreUser: any): IUser => {
 };
 
 export const outgoing = (user: IUser): IFireStoreUser => {
-  const { id, name, lastConnection } = user;
+  const { name, lastConnection } = user;
   return {
     lastConnection: dateAdapter.outgoing(lastConnection),
-    name,
-    uid: id
+    name
   };
 };

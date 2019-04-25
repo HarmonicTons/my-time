@@ -9,9 +9,7 @@ export const list = async (): Promise<IUser[]> => {
   if (!querySnapshot) {
     return [];
   }
-  return querySnapshot.docs.map(queryDocument =>
-    incoming(queryDocument.data())
-  );
+  return querySnapshot.docs.map(doc => incoming(doc.id, doc.data()));
 };
 
 export const single = async (userID: string): Promise<IUser | undefined> => {
@@ -22,7 +20,7 @@ export const single = async (userID: string): Promise<IUser | undefined> => {
   if (!doc.exists) {
     return;
   }
-  return incoming({ uid: userID, ...doc.data() });
+  return incoming(doc.id, doc.data);
 };
 
 export const upsert = async (user: IUser): Promise<void> => {

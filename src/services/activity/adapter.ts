@@ -1,8 +1,8 @@
 import { IActivity } from "../../interfaces/IActivity";
 import { IFireStoreActivity } from "./IFireStoreActivity";
 
-export const incoming = (fireStoreActivity: any): IActivity => {
-  const { uid, name, description, color } = fireStoreActivity;
+export const incoming = (uid: string, fireStoreActivity: any): IActivity => {
+  const { name, description, color } = fireStoreActivity;
   return {
     color,
     description,
@@ -12,11 +12,10 @@ export const incoming = (fireStoreActivity: any): IActivity => {
 };
 
 export const outgoing = (activity: IActivity): IFireStoreActivity => {
-  const { id, name, description, color } = activity;
+  const { name, description, color } = activity;
   return {
     color,
     description,
-    name,
-    uid: id
+    name
   };
 };

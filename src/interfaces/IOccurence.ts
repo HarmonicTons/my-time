@@ -1,7 +1,7 @@
 import { Moment } from "moment";
 
 export interface IOccurence {
-  id: string;
+  id?: string;
   date: Moment;
   duration: number;
 }
