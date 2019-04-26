@@ -59,3 +59,14 @@ export const update = async (
     .doc(occurence.id)
     .set(outgoing(occurence), { merge: true });
 };
+
+export const remove = async (
+  userID: string,
+  activityID: string,
+  occurenceID: string
+): Promise<void> => {
+  return await db
+    .collection(`users/${userID}/activities/${activityID}/occurences`)
+    .doc(occurenceID)
+    .delete();
+};

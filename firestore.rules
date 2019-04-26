@@ -59,7 +59,7 @@ service cloud.firestore {
               incomingData().duration <= 1440;
           }
         
-          allow read: if isYourself();
+          allow read, delete: if isYourself();
           allow create, update: if isYourself() &&
             occurenceDateIsValid() &&
             occurenceDurationIsValid();

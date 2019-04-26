@@ -6,4 +6,5 @@ export interface IActivity {
   description?: string;
   color: string;
   occurences?: IOccurence;
+  removed: boolean;
 }

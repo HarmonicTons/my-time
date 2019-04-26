@@ -1,11 +1,30 @@
 import { IActivity } from "../../interfaces/IActivity";
 import firebase from "../firebase";
+import {
+  list as listOccurences,
+  remove as removeOccurence
+} from "../occurence";
 import { incoming, outgoing } from "./adapter";
 
 const db = firebase.firestore();
 
-export const list = async (userID: string): Promise<IActivity[]> => {
-  const querySnapshot = await db.collection(`users/${userID}/activities`).get();
+interface IFilter {
+  removed?: boolean;
+}
+
+export const list = async (
+  userID: string,
+  { filter }: { filter: IFilter } = { filter: {} }
+): Promise<IActivity[]> => {
+  let collectionRef:
+    | firebase.firestore.Query
+    | firebase.firestore.CollectionReference;
+  collectionRef = db.collection(`users/${userID}/activities`);
+  if (filter.removed !== undefined) {
+    collectionRef = collectionRef.where("removed", "==", filter.removed);
+  }
+  const querySnapshot = await collectionRef.get();
+
   if (!querySnapshot) {
     return [];
   }
@@ -48,4 +67,22 @@ export const update = async (
     .collection(`users/${userID}/activities`)
     .doc(activity.id)
     .set(outgoing(activity), { merge: true });
+};
+
+export const remove = async (
+  userID: string,
+  activityID: string
+): Promise<void> => {
+  await db
+    .collection(`users/${userID}/activities`)
+    .doc(activityID)
+    .delete();
+
+  // remove all occurences of that activity
+  const occurences = await listOccurences(userID, activityID);
+  const occurencesRemoving = occurences.map(
+    async occurence =>
+      occurence.id && removeOccurence(userID, activityID, occurence.id)
+  );
+  await Promise.all(occurencesRemoving);
 };
